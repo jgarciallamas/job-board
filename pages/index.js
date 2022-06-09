@@ -7,17 +7,21 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 export async function getServerSideProps(context) {
-  // const session = await getSession({ req });
-  const session = await getSession(context);
-  // console.log("session", session);
-
   let jobs = await getJobs(prisma);
   jobs = JSON.parse(JSON.stringify(jobs));
 
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      props: {
+        jobs,
+      },
+    };
+  }
+  // console.log("session", session);
+
   let user = await getUser(session.user.id, prisma);
   user = JSON.parse(JSON.stringify(user));
-  // console.log("user", user);
-  // console.log("context.req", context.req);
 
   return {
     props: {
