@@ -31,7 +31,7 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard({ jobs, user, applications }) {
   const { data: session, status } = useSession();
-  console.log("applications -->", applications);
+  // console.log("applications -->", applications);
   return (
     <div className="mt-10">
       <div className="text-center p-4 m-4">
