@@ -1,6 +1,36 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Job = ({ job, isDashboard }) => {
+  const router = useRouter();
+  const handlePublishedClick = async () => {
+    await fetch("/api/job", {
+      body: JSON.stringify({
+        id: job.id,
+        task: "unpublish",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+    });
+    router.reload(window.location.pathname);
+  };
+
+  const handleUnpublishedClick = async () => {
+    await fetch("/api/job", {
+      body: JSON.stringify({
+        id: job.id,
+        task: "publish",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+    });
+    router.reload(window.location.pathname);
+  };
+  // console.log("isDashboard", isDashboard);
   return (
     <div className="mb-4 mt-20 pl-16 pr-16">
       <Link href={`/job/${job.id}`}>
@@ -9,12 +39,18 @@ const Job = ({ job, isDashboard }) => {
       <h2 className="text-base font-normal mt-3">{job.description}</h2>
       <div className="mt-4">
         {isDashboard && job.published && (
-          <span className="bg-black text-white uppercase text-sm p-2 mr-5">
+          <span
+            className="bg-black text-white uppercase text-sm p-2 mr-5"
+            onClick={handlePublishedClick}
+          >
             ✅ Published
           </span>
         )}
         {isDashboard && !job.published && (
-          <span className="bg-black text-white uppercase text-sm p-2 mr-5">
+          <span
+            className="bg-black text-white uppercase text-sm p-2 mr-5"
+            onClick={handleUnpublishedClick}
+          >
             ❌ Unpublished
           </span>
         )}

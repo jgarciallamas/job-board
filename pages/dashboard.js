@@ -1,9 +1,9 @@
 import prisma from "lib/prisma";
 import { getSession, useSession } from "next-auth/react";
 import { getUser, getJobsPosted, getApplications } from "lib/data";
-import Jobs from "components/Jobs";
+import Job from "components/Job";
 import Link from "next/link";
-import Job from "./job/[id]";
+// import Job from "./job/[id]";
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
